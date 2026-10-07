@@ -7,19 +7,42 @@ type Sample = { limits: Limit[]; contextUsed?: number }
 
 // Limits belong to the account, not the chat. A live reading is saved to the
 // store so a chat with no reply yet can show the last one any session saw.
+// Two readings of one limit: a later reset time is a newer window; within the
+// same window, use only goes up, so the higher figure is the fresher one.
+function fresher(a: Limit, b: Limit): Limit {
+  const ta = a.resetsAt ? Date.parse(a.resetsAt) : 0
+  const tb = b.resetsAt ? Date.parse(b.resetsAt) : 0
+
+  if (ta !== tb) return ta > tb ? a : b
+
+  return a.percentUsed >= b.percentUsed ? a : b
+}
+
+function mergeLimits(live: Limit[], saved: Limit[]): Limit[] {
+  const merged = new Map<string, Limit>()
+
+  for (const l of [...saved, ...live]) {
+    const current = merged.get(l.kind)
+    merged.set(l.kind, current ? fresher(current, l) : l)
+  }
+
+  return [...merged.values()]
+}
+
+// Limits belong to the account, not the chat: merge this chat's last reading
+// with the one any session saved, and save the result back.
 async function sample($: EngineInterface): Promise<Sample> {
   const usage = await $.session.usage()
   const contextUsed = usage.context.percent
+  // 'limitsShared', not 'limits': sessions still running the first version
+  // keep overwriting 'limits' with their own stale reading.
+  const stored = await $.store.get('limitsShared')
+  const saved = Array.isArray(stored) ? (stored as Limit[]) : []
+  const limits = mergeLimits(usage.rateLimits, saved)
 
-  if (usage.rateLimits.length > 0) {
-    await $.store.set('limits', usage.rateLimits)
+  if (limits.length > 0) await $.store.set('limitsShared', limits)
 
-    return { limits: usage.rateLimits, contextUsed }
-  }
-
-  const saved = await $.store.get('limits')
-
-  return { limits: Array.isArray(saved) ? (saved as Limit[]) : [], contextUsed }
+  return { limits, contextUsed }
 }
 
 export const register: Register = on => {
@@ -30,7 +53,7 @@ export const register: Register = on => {
   // A resumed chat has no rate-limit reading until its first reply, so an
   // empty sample must not wipe the last known one.
   const apply = (s: Sample) => {
-    if (s.limits.length > 0) limits = s.limits
+    limits = s.limits
     if (s.contextUsed !== undefined) contextUsed = s.contextUsed
   }
 

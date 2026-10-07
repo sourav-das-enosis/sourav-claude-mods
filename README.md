@@ -12,7 +12,7 @@ A bar above the prompt that shows what is left of your limits:
 
 - Percent turns red below 20%.
 - The bracket shows time until that limit resets.
-- Hourly and weekly limits are saved between sessions, so a resumed chat shows the last known values before its first reply.
+- Hourly and weekly limits are shared between sessions, so every chat shows the freshest reading any session has seen, even before its own first reply.
 - Needs a Claude subscription plan. On API billing, only context shows.
 
 ## Install
