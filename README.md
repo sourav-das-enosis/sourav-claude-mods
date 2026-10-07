@@ -8,9 +8,7 @@ Claude Code mods by Sourav.
 
 A bar above the prompt that shows what is left of your limits:
 
-```
-Hourly Left 98% (4h 37m)   ·   Weekly Left 100% (6d 9h)   ·   Context Left 62%
-```
+![limits-band showing Hourly Left, Weekly Left and Context Left above the prompt](docs/limits-band.png)
 
 - Percent turns red below 20%.
 - The bracket shows time until that limit resets.
