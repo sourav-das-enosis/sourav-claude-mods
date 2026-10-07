@@ -1,0 +1,12 @@
+{
+  "name": "sourav-claude-mods",
+  "description": "Claude Code mods by Sourav.",
+  "owner": { "name": "Sourav Das" },
+  "plugins": [
+    {
+      "name": "limits-band",
+      "source": "./mods/limits-band",
+      "description": "Always-visible bar above the prompt showing hourly, weekly and context percent left."
+    }
+  ]
+}

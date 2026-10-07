@@ -1,0 +1,6 @@
+{
+  "name": "limits-band",
+  "version": "0.1.0",
+  "description": "Always-visible bar above the prompt showing remaining 5-hour and weekly limits.",
+  "author": { "name": "govinda" }
+}
