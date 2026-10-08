@@ -13,6 +13,8 @@ A bar above the prompt that shows what is left of your limits:
 - Percent turns red below 20%.
 - The bracket shows time until that limit resets.
 - Hourly and weekly limits are shared between sessions, so every chat shows the freshest reading any session has seen, even before its own first reply.
+- First time after installing: send one message in any chat. Hourly and weekly limits only arrive with a reply, so until then only context shows. After that, every chat shows them.
+- When you switch to a chat that has no limits showing yet, they can take a few seconds to appear.
 - Needs a Claude subscription plan. On API billing, only context shows.
 
 ### open-in-pycharm
