@@ -1,0 +1,6 @@
+{
+  "name": "open-in-pycharm",
+  "version": "0.2.0",
+  "description": "Open files in PyCharm from tool rows and file links in replies.",
+  "author": { "name": "govinda" }
+}

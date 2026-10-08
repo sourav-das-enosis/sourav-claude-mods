@@ -7,6 +7,11 @@
       "name": "limits-band",
       "source": "./mods/limits-band",
       "description": "Always-visible bar above the prompt showing hourly, weekly and context percent left."
+    },
+    {
+      "name": "open-in-pycharm",
+      "source": "./mods/open-in-pycharm",
+      "description": "Open files in PyCharm from tool rows and file links in replies."
     }
   ]
 }
